@@ -4,7 +4,7 @@
 //  Author: Michele Dell'Ambrogio (m@nextcode.ch)
 //=============================================================================
 
-#include "ReMessage.h"
+#include "ReMessage.hpp"
 
 
 

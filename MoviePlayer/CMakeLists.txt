@@ -1,32 +1,23 @@
-#=============================================================================
-#  Copyright (c) 2016 Disney Enterprises, Inc.
-#  Disney Research, Zurich. All rights reserved.
-#
-#  Authors: Michele Dell'Ambrogio (mda@disneyresearch.com)
-#=============================================================================
+cmake_minimum_required(VERSION 2.8.11)
 
-cmake_minimum_required(VERSION 3.2)
+project(MoviePlayer)
 
-set(PROJECT_NAME MoviePlayer)
-
-project(${PROJECT_NAME})
-
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
-find_package(Qt5 REQUIRED COMPONENTS Core Quick)
+
+find_package(Qt5 COMPONENTS Quick Core)
 
 file(GLOB SOURCES
 	${CMAKE_CURRENT_SOURCE_DIR}/*.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/*.qml
-	${CMAKE_CURRENT_SOURCE_DIR}/*.js
 	${CMAKE_CURRENT_SOURCE_DIR}/*.qrc
-	${CMAKE_CURRENT_SOURCE_DIR}/*.mp4
 )
 
 qt5_add_resources(RESOURCES qml.qrc)
 
 add_executable(${PROJECT_NAME}
-	${SOURCES}
+	${SOURCES} 
 	${RESOURCES}
 )
 

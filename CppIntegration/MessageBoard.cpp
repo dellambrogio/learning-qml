@@ -4,7 +4,7 @@
 //  Author: Michele Dell'Ambrogio (m@nextcode.ch)
 //=============================================================================
 
-#include "MessageBoard.h"
+#include "MessageBoard.hpp"
 
 
 #include <QDebug>

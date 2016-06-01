@@ -4,7 +4,7 @@
 //  Author: Michele Dell'Ambrogio (m@nextcode.ch)
 //=============================================================================
 
-#include <Signaler.h>
+#include <Signaler.hpp>
 
 
 

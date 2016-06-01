@@ -4,7 +4,7 @@
 //  Author: Michele Dell'Ambrogio (m@nextcode.ch)
 //=============================================================================
 
-#include "Message.h"
+#include "Message.hpp"
 
 void Message::setAuthor(const QString &a) {
     if (a != m_author) {

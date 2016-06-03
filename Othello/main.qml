@@ -5,8 +5,53 @@ Window {
     visible: true
     color: "lightgray"
 
-    Rectangle
-    {
+    Row {
+        spacing: 2
+
+        Rectangle {
+            id: currentDisc
+            x: 4
+            y: 4
+            width: 60
+            height: 60
+            radius: width*0.5
+            color: "transparent"
+        }
+
+        Rectangle {
+            id: gameSwitcher
+            color: "lightblue"
+            width: 60
+            height: 60
+
+            Text {
+                anchors.centerIn: parent
+                text: "Start"
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    board.state = "BLACK"
+                }
+            }
+        }
+
+        Rectangle {
+            width: 200
+            height: 60
+            Text {
+                anchors.centerIn: parent
+                id: stateLabel
+                text: ""
+            }
+            color: "lightyellow"
+        }
+    }
+
+
+    Rectangle {
+        id: board
         anchors.centerIn: parent
         width: (grid.width + grid.x*2)
         height: (grid.height + grid.y*2)
@@ -22,27 +67,41 @@ Window {
             Repeater {
                 id: repeater
                 model: {
-                    var board = []
+                    var data = []
                     for (var i = 0; i < 64; ++i)
-                        board[i] = false;
-                    board;
+                        data[i] = undefined;
+
+                    data[27] = true;
+                    data[28] = false;
+                    data[35] = false;
+                    data[36] = true;
+
+                    data;
                 }
 
                 Rectangle {
-                    width: 70
-                    height: 70
+                    width: (disc.width + disc.x*2)
+                    height: (disc.height + disc.y*2)
                     color: "green"
 
                     Rectangle {
+                        id: disc
                         x: 4
                         y: 4
-                        width: (parent.width - (2*x))
-                        height: (parent.height - (2*y))
+                        width: 60
+                        height: 60
                         radius: width*0.5
                         color: {
                             //var row = Math.floor(index / 8);
                             //var column = index % 8
-                            repeater.model[index] ? "black" : "white";
+                            //repeater.model[index] ? "black" : "white";
+                            if (repeater.model[index] === undefined)
+                                return 'transparent'
+
+                            if (repeater.model[index])
+                                return 'white'
+                            else
+                                return 'black'
                         }
                     }
 
@@ -60,5 +119,31 @@ Window {
                 }
             }
         }
+
+        state: "NEW"
+
+        states: [
+            State {
+                name: "NEW"
+                PropertyChanges { target: stateLabel; text: "please start..."}
+                PropertyChanges { target: currentDisc; color: "transparent"}
+            },
+            State {
+                name: "BLACK"
+                PropertyChanges { target: stateLabel; text: "black is playing..."}
+                PropertyChanges { target: currentDisc; color: "black"}
+            },
+            State {
+                name: "WHITE"
+                PropertyChanges { target: stateLabel; text: "white is playing..."}
+                PropertyChanges { target: currentDisc; color: "white"}
+            },
+            State {
+                name: "END"
+                PropertyChanges { target: stateLabel; text: "end"}
+                PropertyChanges { target: currentDisc; color: "transparent"}
+            }
+        ]
     }
+
 }

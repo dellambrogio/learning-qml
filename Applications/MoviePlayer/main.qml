@@ -1,17 +1,19 @@
 import QtQuick 2.6
-import QtQuick.Controls 1.4
+import QtQuick.Window 2.2
 import QtQuick.Dialogs 1.0
+
 import QtMultimedia 5.6
-import QtQuick.Layouts 1.0
+
 import Qt.labs.controls 1.0
 
 
-ApplicationWindow {
+Window {
+    id: window
     visible: true
     width: 640
     height: 480
-    title: qsTr("Hello World")
-
+    color: "black"
+    title: "Movie Player"
 
     FileDialog {
         id: fileDialogID
@@ -23,36 +25,20 @@ ApplicationWindow {
         selectExisting: true
         selectMultiple: false
         onAccepted: {
-            filenameID.text = fileDialogID.fileUrl
+            window.title = fileDialogID.fileUrl
             mediaplayer.source = fileDialogID.fileUrl
             mediaplayer.play();
         }
         onRejected: {
-            filenameID.text = ""
+            window.title = "Movie Player"
         }
     }
 
-    Button {
-        id: openDialogID
-        text: "Choose"
-        width: 60
-        onClicked: {
-            fileDialogID.open()
-        }
-    }
-
-    Text {
-        id: filenameID
-        width: 520
-        text: "here the filename"
-        anchors.left: openDialogID.right
-    }
-
-    Text {
-        anchors.top: openDialogID.bottom
-        text: mediaplayer.duration
-    }
-
+    //    MouseArea {
+    //        enabled: true
+    //        anchors.fill: parent
+    //        onPressed: fileDialogID.open()
+    //    }
 
     MediaPlayer {
         id: mediaplayer
@@ -64,29 +50,67 @@ ApplicationWindow {
         source: mediaplayer
     }
 
+    Rectangle {
+        anchors.top: parent.top
+        color: "lightgray"
 
-    Slider {
-        anchors.bottom: parent.bottom
-        value: mediaplayer.position / mediaplayer.duration
-        property bool isChanging;
-
-        onPressedChanged: {
-            if (pressed) {
-                isChanging = true;
-                mediaplayer.pause();
-            } else {
-                isChanging = false;
-                mediaplayer.play();
-            }
+        Row {
         }
+    }
 
-        onValueChanged: {
-           console.log(mediaplayer.status)
-           if (isChanging)
-           {
-               var newPosition = value * mediaplayer.duration
-               mediaplayer.seek(newPosition)
-           }
+
+    Rectangle {
+        anchors.bottom: parent.bottom
+        height: 40
+        width: 400
+        x: (parent.width / 2) - (width / 2)
+        color: "lightblue"
+
+        Row {
+            anchors.centerIn: parent
+
+            Slider {
+                id: timeSlider
+                value: mediaplayer.position / mediaplayer.duration
+
+                property bool isChanging
+
+                onPressedChanged: {
+                    if (pressed) {
+                        isChanging = true;
+                        mediaplayer.pause();
+                    } else {
+                        isChanging = false;
+                        mediaplayer.play();
+                    }
+                }
+
+                onValueChanged: {
+                    //console.log(mediaplayer.status)
+                    if (isChanging)
+                    {
+                        var newPosition = value * mediaplayer.duration
+                        mediaplayer.seek(newPosition)
+                    }
+                }
+            }
+
+            Button {
+                id: openDialogID
+                text: "Choose"
+                width: 120
+                height: 30
+                onClicked: {
+                    fileDialogID.open()
+                }
+            }
+
+//            Text {
+//                width: 200
+//                height: 30
+//                text: mediaplayer.duration
+//            }
+
         }
     }
 
@@ -94,10 +118,8 @@ ApplicationWindow {
 
 
 
-    //    MouseArea {
-    //        id: playArea
-    //        anchors.fill: parent
-    //        onPressed: mediaplayer.play();
-    //    }
+
+
+
 
 }

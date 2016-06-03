@@ -25,12 +25,10 @@ Rectangle {
                         var squares = repeater.model;
                         var player = root.currentPlayer;
                         squares[index] = player;
-
                         if (player)
                             root.state = "BLACK_IS_PLAYING"
                         else
                             root.state = "WHITE_IS_PLAYING"
-                        //root.currentPlayer = !player;
                         repeater.model = squares;
                     }
                     state: {

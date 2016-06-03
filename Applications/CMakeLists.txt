@@ -6,9 +6,5 @@
 
 cmake_minimum_required(VERSION 3.2)
 
-project(LearningQML)
-
-add_subdirectory(Playground)
-add_subdirectory(Libraries)
-add_subdirectory(Applications)
-add_subdirectory(Tests)
+add_subdirectory(Othello)
+add_subdirectory(MoviePlayer)

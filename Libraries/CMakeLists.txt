@@ -1,2 +1,2 @@
 
-add_subdirectory(OthelloGame)
+add_subdirectory(Reversi)

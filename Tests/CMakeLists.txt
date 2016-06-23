@@ -8,5 +8,5 @@ endif()
 find_package(GTest QUIET)
 
 if(${GTEST_FOUND})
-	add_subdirectory(OthelloGameTests)
+	add_subdirectory(ReversiTests)
 endif()

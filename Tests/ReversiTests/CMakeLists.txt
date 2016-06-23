@@ -1,7 +1,7 @@
 
 cmake_minimum_required(VERSION 3.2)
 
-project(OthelloGameTests)
+project(ReversiTests)
 
 find_package(Threads REQUIRED)
 find_package(GTest REQUIRED)
@@ -20,7 +20,7 @@ add_executable(${PROJECT_NAME}
 )
 
 target_link_libraries(${PROJECT_NAME}
-	OthelloGame
+	Reversi
 	${GTEST_BOTH_LIBRARIES}
 	${CMAKE_THREAD_LIBS_INIT}
 )

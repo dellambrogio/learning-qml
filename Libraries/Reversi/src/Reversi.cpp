@@ -15,11 +15,6 @@ namespace rev
 		m_tiles(5, 5) = ETile::White;
 	}
 
-	bool Reversi::isValidMove(int x, int y, ETile tile) const
-	{
-		return false;
-	}
-
 	bool Reversi::isOnBoard(int x, int y)
 	{
 		return x >=0 && x<8 && y >=0 && y<8;
@@ -65,6 +60,47 @@ namespace rev
 		score[ETile::White] = white;
 
 		return score;
+	}
+
+	bool Reversi::isValidMove(int x, int y, ETile tile) const
+	{
+		if (! isOnBoard(x, y))
+			return false;
+
+		if (m_tiles(x, y) != ETile::Unknown)
+			return false;
+
+		for (int dx=-1; dx<=1; ++dx)
+		{
+			for (int dy=-1; dy<=1; ++dy)
+			{
+				if (dx==0 && dy==0)
+					continue;
+
+				int px = x + dx;
+				int py = y + dy;
+				int oppCount = 0;
+				bool myTileFound = false;
+
+				while(isOnBoard(px, py) && !myTileFound)
+				{
+					if (m_tiles(px, py) == opponent(tile))
+						oppCount++;
+					else if (m_tiles(px, py) == tile)
+						myTileFound = true;
+					else
+						break;
+
+					px += dx;
+					py += dy;
+				}
+
+				if (myTileFound && oppCount>0)
+					return true;
+			}
+		}
+
+		return false;
 	}
 
 	std::vector<Eigen::Vector2i> Reversi::getValidMoves(ETile tile) const

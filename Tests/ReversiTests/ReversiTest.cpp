@@ -6,7 +6,7 @@
 
 using namespace rev;
 
-TEST(BoardTest, Static)
+TEST(ReversiTest, Static)
 {
 	for (int x=0; x<8; ++x)
 	{
@@ -41,7 +41,7 @@ TEST(BoardTest, Static)
 	EXPECT_EQ(Reversi::opponent(ETile::Unknown), ETile::Unknown);
 }
 
-TEST(BoardTest, Init)
+TEST(ReversiTest, Init)
 {
 	Reversi reversi;
 
@@ -57,6 +57,26 @@ TEST(BoardTest, Init)
 	EXPECT_EQ(score[ETile::Unknown], 60);
 	EXPECT_EQ(score[ETile::Black], 2);
 	EXPECT_EQ(score[ETile::White], 2);
+}
+
+TEST(ReversiTest, isValidMove)
+{
+	Reversi reversi;
+
+	EXPECT_FALSE(reversi.isValidMove(0, 0, ETile::Black));
+	EXPECT_FALSE(reversi.isValidMove(8, 8, ETile::Black));
+	EXPECT_FALSE(reversi.isValidMove(0, 0, ETile::White));
+	EXPECT_FALSE(reversi.isValidMove(8, 8, ETile::White));
+
+	EXPECT_TRUE(reversi.isValidMove(3, 4, ETile::Black));
+	EXPECT_TRUE(reversi.isValidMove(4, 3, ETile::Black));
+	EXPECT_TRUE(reversi.isValidMove(5, 6, ETile::Black));
+	EXPECT_TRUE(reversi.isValidMove(6, 5, ETile::Black));
+
+	EXPECT_TRUE(reversi.isValidMove(3, 5, ETile::White));
+	EXPECT_TRUE(reversi.isValidMove(5, 3, ETile::White));
+	EXPECT_TRUE(reversi.isValidMove(4, 6, ETile::White));
+	EXPECT_TRUE(reversi.isValidMove(6, 4, ETile::White));
 }
 
 //TEST(BoardTest, Simple)

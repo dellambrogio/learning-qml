@@ -64,43 +64,7 @@ namespace rev
 
 	bool Reversi::isValidMove(int x, int y, ETile tile) const
 	{
-		if (! isOnBoard(x, y))
-			return false;
-
-		if (m_tiles(x, y) != ETile::Unknown)
-			return false;
-
-		for (int dx=-1; dx<=1; ++dx)
-		{
-			for (int dy=-1; dy<=1; ++dy)
-			{
-				if (dx==0 && dy==0)
-					continue;
-
-				int px = x + dx;
-				int py = y + dy;
-				int oppCount = 0;
-				bool myTileFound = false;
-
-				while(isOnBoard(px, py) && !myTileFound)
-				{
-					if (m_tiles(px, py) == opponent(tile))
-						oppCount++;
-					else if (m_tiles(px, py) == tile)
-						myTileFound = true;
-					else
-						break;
-
-					px += dx;
-					py += dy;
-				}
-
-				if (myTileFound && oppCount>0)
-					return true;
-			}
-		}
-
-		return false;
+		return ! tilesToFlip(x, y, tile).empty();
 	}
 
 	std::vector<Eigen::Vector2i> Reversi::getValidMoves(ETile tile) const
@@ -119,9 +83,62 @@ namespace rev
 		return moves;
 	}
 
+	std::vector<Eigen::Vector2i> Reversi::tilesToFlip(int x, int y, ETile tile) const
+	{
+		std::vector<Eigen::Vector2i> positions;
+
+		if (! isOnBoard(x, y))
+			return positions;
+
+		if (m_tiles(x, y) != ETile::Unknown)
+			return positions;
+
+		for (int dx=-1; dx<=1; ++dx)
+		{
+			for (int dy=-1; dy<=1; ++dy)
+			{
+				if (dx==0 && dy==0)
+					continue;
+
+				int px = x + dx;
+				int py = y + dy;
+
+				std::vector<Eigen::Vector2i> _positions;
+				bool myTileFound = false;
+
+				while(isOnBoard(px, py) && !myTileFound)
+				{
+					if (m_tiles(px, py) == opponent(tile))
+						_positions.push_back(Eigen::Vector2i(px, py));
+					else if (m_tiles(px, py) == tile)
+						myTileFound = true;
+					else
+						break;
+
+					px += dx;
+					py += dy;
+				}
+
+				if (myTileFound)
+				{
+					positions.insert(positions.end(), _positions.begin(), _positions.end());
+				}
+			}
+		}
+
+		return positions;
+	}
+
 	bool Reversi::makeMove(int x, int y, ETile tile)
 	{
-		return false;
+		const std::vector<Eigen::Vector2i> positions = tilesToFlip(x, y, tile);
+
+		for (auto pos: positions)
+		{
+			m_tiles(pos(0), pos(1)) = tile;
+		}
+
+		return ! positions.empty();
 	}
 
 	const TMatrix &Reversi::getTiles() const
@@ -133,83 +150,4 @@ namespace rev
 	{
 		m_tiles = tiles;
 	}
-
-	/*
-	void Reversi::setStone(int r, int c, ETile stone)
-	{
-		// check of place is empty
-		if (m_board(r, c) != ETile::Unknown)
-			throw std::runtime_error("cannot place stone");
-
-		// check if one opponent is in the neighbor
-		bool opponentNeighborFound = false;
-		for (int dR=-1; dR<=1; ++dR)
-		{
-			for (int dC=-1; dC<=1; ++dC)
-			{
-				int pR = r + dR;
-				int pC = c + dC;
-				if (pR >=0 && pR<8 && pC >=0 && pC<8
-						&& m_board(pR, pC) == opponent(stone))
-				{
-					opponentNeighborFound = true;
-				}
-			}
-		}
-		if (! opponentNeighborFound)
-			throw std::runtime_error("cannot place stone, no opponent neighbor found");
-
-		// change colors
-		m_board(r, c) = stone;
-
-		for (int dR=-1; dR<=1; ++dR)
-		{
-			for (int dC=-1; dC<=1; ++dC)
-			{
-				int pR = r + dR;
-				int pC = c + dC;
-				while(pR >=0 && pR<8 && pC >=0 && pC<8
-							&& m_board(pR, pC) != ETile::Unknown
-							&& m_board(pR, pC) != stone)
-				{
-					m_board(pR, pC) = stone;
-					pR += dR;
-					pC += dC;
-				}
-			}
-		}
-	}
-
-	void Reversi::countStones(int &black, int &white) const
-	{
-		black = 0;
-		white = 0;
-
-		for (int r=0; r<8; ++r)
-		{
-			for (int c=0; c<8; ++c)
-			{
-				if (m_board(r, c) == ETile::White)
-					white++;
-				else if (m_board(r, c) == ETile::Black)
-					black++;
-			}
-		}
-	}
-
-	const TMatrix &Reversi::matrix() const
-	{
-		return m_board;
-	}
-
-	ETile Reversi::opponent(const ETile stone)
-	{
-		if (stone == ETile::White)
-			return ETile::Black;
-		else if (stone == ETile::Black)
-			return ETile::White;
-		else
-			return stone;
-	}
-	*/
 }

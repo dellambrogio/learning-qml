@@ -44,6 +44,9 @@ namespace rev
 		// Returns a list of [x,y] lists of valid moves for the given player on the given board.
 		std::vector<Eigen::Vector2i> getValidMoves(ETile tile) const;
 
+		// returns a list of spaces that would become the player's if they made a move here.
+		std::vector<Eigen::Vector2i> tilesToFlip(int x, int y, ETile tile) const;
+
 		// Place the tile on the board at x, y, and flip any of the opponent's pieces.
 		// Returns False if this is an invalid move, True if it is valid.
 		bool makeMove(int x, int y, ETile tile);

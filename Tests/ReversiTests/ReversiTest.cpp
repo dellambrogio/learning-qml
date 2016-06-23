@@ -95,34 +95,26 @@ TEST(ReversiTest, validMoves)
 {
 	Reversi reversi;
 
-	std::vector<Eigen::Vector2i> blackMoves = reversi.getValidMoves(ETile::Black);
+	std::vector<Eigen::Vector2i> blacks = reversi.getValidMoves(ETile::Black);
 
-	EXPECT_EQ(blackMoves.size(), 4);
+	EXPECT_EQ(blacks.size(), 4);
 
-	EXPECT_EQ(std::count(blackMoves.begin(), blackMoves.end(), Eigen::Vector2i(0, 0)), 0);
-	EXPECT_EQ(std::count(blackMoves.begin(), blackMoves.end(), Eigen::Vector2i(3, 4)), 1);
-	EXPECT_EQ(std::count(blackMoves.begin(), blackMoves.end(), Eigen::Vector2i(4, 3)), 1);
-	EXPECT_EQ(std::count(blackMoves.begin(), blackMoves.end(), Eigen::Vector2i(5, 6)), 1);
-	EXPECT_EQ(std::count(blackMoves.begin(), blackMoves.end(), Eigen::Vector2i(6, 5)), 1);
+	EXPECT_EQ(std::count(blacks.begin(), blacks.end(), Eigen::Vector2i(0, 0)), 0);
+	EXPECT_EQ(std::count(blacks.begin(), blacks.end(), Eigen::Vector2i(3, 4)), 1);
+	EXPECT_EQ(std::count(blacks.begin(), blacks.end(), Eigen::Vector2i(4, 3)), 1);
+	EXPECT_EQ(std::count(blacks.begin(), blacks.end(), Eigen::Vector2i(5, 6)), 1);
+	EXPECT_EQ(std::count(blacks.begin(), blacks.end(), Eigen::Vector2i(6, 5)), 1);
 }
 
+TEST(ReversiTest, tilesToFlip)
+{
+	Reversi reversi;
 
-//TEST(BoardTest, Simple)
-//{
-//	Reversi reversi;
+	const std::vector<Eigen::Vector2i> blacks = reversi.tilesToFlip(3, 4, ETile::Black);
+	EXPECT_EQ(blacks.size(), 1);
+	EXPECT_EQ(blacks[0], Eigen::Vector2i(4, 4));
 
-//	int cblack = 0;
-//	int cwhite = 0;
-
-//	reversi.countStones(cblack, cwhite);
-//	EXPECT_EQ(cblack, 2);
-//	EXPECT_EQ(cwhite, 2);
-
-//	reversi.setStone(5, 6, ETile::Black);
-//	reversi.countStones(cblack, cwhite);
-//	EXPECT_EQ(cblack, 4);
-//	EXPECT_EQ(cwhite, 1);
-
-//	ASSERT_THROW(reversi.setStone(5, 6, ETile::Black), std::runtime_error);
-//}
-
+	const std::vector<Eigen::Vector2i> whites = reversi.tilesToFlip(3, 5, ETile::White);
+	EXPECT_EQ(whites.size(), 1);
+	EXPECT_EQ(whites[0], Eigen::Vector2i(4, 5));
+}

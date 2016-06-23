@@ -30,6 +30,43 @@ namespace rev
 		return (x == 0 && y == 0) || (x == 7 && y == 0) || (x == 0 && y == 7) || (x == 7 && y == 7);
 	}
 
+	ETile Reversi::opponent(ETile tile)
+	{
+		if (tile == ETile::White)
+			return ETile::Black;
+		else if (tile == ETile::Black)
+			return ETile::White;
+		else
+			return tile;
+	}
+
+	std::map<ETile, int> Reversi::getScore() const
+	{
+		int black = 0;
+		int white = 0;
+		int unknown = 0;
+
+		for (int x=0; x<8; ++x)
+		{
+			for (int y=0; y<8; ++y)
+			{
+				if (m_tiles(x, y) == ETile::White)
+					white++;
+				else if (m_tiles(x, y) == ETile::Black)
+					black++;
+				else
+					unknown++;
+			}
+		}
+
+		std::map<ETile, int> score;
+		score[ETile::Unknown] = unknown;
+		score[ETile::Black] = black;
+		score[ETile::White] = white;
+
+		return score;
+	}
+
 	std::vector<Eigen::Vector2i> Reversi::getValidMoves(ETile tile) const
 	{
 		std::vector<Eigen::Vector2i> moves;
@@ -42,16 +79,14 @@ namespace rev
 		return false;
 	}
 
-	std::map<ETile, int> Reversi::getScore() const
-	{
-		std::map<ETile, int> score;
-
-		return score;
-	}
-
 	const TMatrix &Reversi::getTiles() const
 	{
 		return m_tiles;
+	}
+
+	void Reversi::setTiles(const TMatrix &tiles)
+	{
+		m_tiles = tiles;
 	}
 
 	/*

@@ -32,6 +32,12 @@ namespace rev
 		// Returns True if the position is in one of the four corners.
 		static bool isOnCorner(int x, int y);
 
+		// Returns the opponent tile
+		static ETile opponent(ETile tile);
+
+		// Determine the score by counting the tiles. Returns a dictionary with keys 'X' and 'O'.
+		std::map<ETile, int> getScore() const;
+
 		// Returns False if the player's move on space r, c is invalid.
 		bool isValidMove(int x, int y, ETile tile) const;
 
@@ -42,14 +48,12 @@ namespace rev
 		// Returns False if this is an invalid move, True if it is valid.
 		bool makeMove(int x, int y, ETile tile);
 
-		// Determine the score by counting the tiles. Returns a dictionary with keys 'X' and 'O'.
-		std::map<ETile, int> getScore() const;
-
 		// returns the tiles on the board
 		const TMatrix &getTiles() const;
-		
-		//static ETile opponent(const ETile tile);
 
+		// sets the tiles on the board
+		void setTiles(const TMatrix &tiles);
+		
 	private:
 		TMatrix m_tiles;
 	};

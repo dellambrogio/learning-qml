@@ -35,6 +35,10 @@ TEST(BoardTest, Static)
 			EXPECT_FALSE(Reversi::isOnCorner(x, y));
 		}
 	}
+
+	EXPECT_EQ(Reversi::opponent(ETile::Black), ETile::White);
+	EXPECT_EQ(Reversi::opponent(ETile::White), ETile::Black);
+	EXPECT_EQ(Reversi::opponent(ETile::Unknown), ETile::Unknown);
 }
 
 TEST(BoardTest, Init)
@@ -48,6 +52,11 @@ TEST(BoardTest, Init)
 	EXPECT_EQ(tiles(4, 5), ETile::Black);
 	EXPECT_EQ(tiles(5, 5), ETile::White);
 
+	std::map<ETile, int> score = reversi.getScore();
+
+	EXPECT_EQ(score[ETile::Unknown], 60);
+	EXPECT_EQ(score[ETile::Black], 2);
+	EXPECT_EQ(score[ETile::White], 2);
 }
 
 //TEST(BoardTest, Simple)

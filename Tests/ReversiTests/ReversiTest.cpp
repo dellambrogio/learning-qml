@@ -2,6 +2,8 @@
 #include <gtest/gtest.h>
 
 #include <stdexcept>
+#include <algorithm>
+
 #include <Reversi/Reversi.hpp>
 
 using namespace rev;
@@ -73,11 +75,37 @@ TEST(ReversiTest, isValidMove)
 	EXPECT_TRUE(reversi.isValidMove(5, 6, ETile::Black));
 	EXPECT_TRUE(reversi.isValidMove(6, 5, ETile::Black));
 
+	EXPECT_FALSE(reversi.isValidMove(3, 4, ETile::White));
+	EXPECT_FALSE(reversi.isValidMove(4, 3, ETile::White));
+	EXPECT_FALSE(reversi.isValidMove(5, 6, ETile::White));
+	EXPECT_FALSE(reversi.isValidMove(6, 5, ETile::White));
+
 	EXPECT_TRUE(reversi.isValidMove(3, 5, ETile::White));
 	EXPECT_TRUE(reversi.isValidMove(5, 3, ETile::White));
 	EXPECT_TRUE(reversi.isValidMove(4, 6, ETile::White));
 	EXPECT_TRUE(reversi.isValidMove(6, 4, ETile::White));
+
+	EXPECT_FALSE(reversi.isValidMove(3, 5, ETile::Black));
+	EXPECT_FALSE(reversi.isValidMove(5, 3, ETile::Black));
+	EXPECT_FALSE(reversi.isValidMove(4, 6, ETile::Black));
+	EXPECT_FALSE(reversi.isValidMove(6, 4, ETile::Black));
 }
+
+TEST(ReversiTest, validMoves)
+{
+	Reversi reversi;
+
+	std::vector<Eigen::Vector2i> blackMoves = reversi.getValidMoves(ETile::Black);
+
+	EXPECT_EQ(blackMoves.size(), 4);
+
+	EXPECT_EQ(std::count(blackMoves.begin(), blackMoves.end(), Eigen::Vector2i(0, 0)), 0);
+	EXPECT_EQ(std::count(blackMoves.begin(), blackMoves.end(), Eigen::Vector2i(3, 4)), 1);
+	EXPECT_EQ(std::count(blackMoves.begin(), blackMoves.end(), Eigen::Vector2i(4, 3)), 1);
+	EXPECT_EQ(std::count(blackMoves.begin(), blackMoves.end(), Eigen::Vector2i(5, 6)), 1);
+	EXPECT_EQ(std::count(blackMoves.begin(), blackMoves.end(), Eigen::Vector2i(6, 5)), 1);
+}
+
 
 //TEST(BoardTest, Simple)
 //{

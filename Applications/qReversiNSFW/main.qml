@@ -22,7 +22,7 @@ ApplicationWindow {
 		anchors.centerIn: parent
 		width: 650
 		height: 650
-		color: "black"
+		color: "blue"
 
 		Grid {
 			x: 10
@@ -31,12 +31,12 @@ ApplicationWindow {
 			columns: 8
 			spacing: 10
 			Repeater {
-				model: 64
+				model: myModel
 
 				Rectangle {
 					width: 70
 					height: 70
-					color: "darkgray"
+					color: model.modelData.color
 
 					MouseArea {
 						anchors.fill: parent

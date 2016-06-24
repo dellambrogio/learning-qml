@@ -10,9 +10,9 @@
 namespace rv
 {
 	enum ETile {
-		Unknown = 0,
-		Black = 1,
-		White = 2
+		Unknown = -1,
+		Black = 0,
+		White = 1
 	};
 
 	typedef Eigen::Matrix<ETile, 8, 8> TMatrix;

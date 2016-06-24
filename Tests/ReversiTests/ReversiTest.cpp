@@ -6,7 +6,7 @@
 
 #include <Reversi/Reversi.hpp>
 
-using namespace rev;
+using namespace rv;
 
 TEST(ReversiTest, Static)
 {

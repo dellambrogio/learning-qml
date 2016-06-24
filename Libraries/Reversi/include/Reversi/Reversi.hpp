@@ -1,13 +1,13 @@
 
-#ifndef OTHELLO_GAME_BOARD_HPP
-#define OTHELLO_GAME_BOARD_HPP
+#ifndef REVERSI_REVERSI_HPP
+#define REVERSI_REVERSI_HPP
 
 #include <Eigen/Dense>
 
 #include <vector>
 #include <map>
 
-namespace rev
+namespace rv
 {
 	enum ETile {
 		Unknown = 0,

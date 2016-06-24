@@ -3,7 +3,7 @@
 
 #include <stdexcept>
 
-namespace rev
+namespace rv
 {
 	Reversi::Reversi()
 	 : m_tiles()

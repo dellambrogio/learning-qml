@@ -1,6 +1,7 @@
+
 cmake_minimum_required(VERSION 2.8.11)
 
-project(Othello)
+project(qReversi)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
@@ -22,6 +23,7 @@ add_executable(${PROJECT_NAME}
 )
 
 target_link_libraries(${PROJECT_NAME}
+	Reversi
 	Qt5::Core
 	Qt5::Quick
 )

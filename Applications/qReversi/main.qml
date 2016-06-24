@@ -79,38 +79,5 @@ Window {
 //        ]
     }
 
-
 }
 
-//                    Rectangle {
-//                        id: disc
-//                        x: 4
-//                        y: 4
-//                        width: 60
-//                        height: 60
-//                        radius: width*0.5
-//                        color: {
-//                            //var row = Math.floor(index / 8);
-//                            //var column = index % 8
-//                            //repeater.model[index] ? "black" : "white";
-//                            if (repeater.model[index] === undefined)
-//                                return 'transparent'
-
-//                            if (repeater.model[index])
-//                                return 'white'
-//                            else
-//                                return 'black'
-//                        }
-
-//                        MouseArea {
-//                            anchors.fill: parent
-//                            onClicked: {
-//                                //var x = index % 8;
-//                                //var y = Math.floor(index/8);
-
-//                                var squares = repeater.model
-//                                squares[index] = true;
-//                                repeater.model = squares;
-//                            }
-//                        }
-//                    }

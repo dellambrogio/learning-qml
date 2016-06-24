@@ -11,6 +11,8 @@ namespace rv {
 	class Reversi;
 }
 
+// http://doc.qt.io/qt-5/qtquick-modelviewsdata-cppmodels.html
+
 class GameController : public QObject
 {
 	Q_OBJECT

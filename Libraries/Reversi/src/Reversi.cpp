@@ -9,10 +9,10 @@ namespace rv
 	 : m_tiles()
 	{
 		m_tiles.fill(ETile::Unknown);
+		m_tiles(3, 3) = ETile::White;
+		m_tiles(4, 3) = ETile::Black;
+		m_tiles(3, 4) = ETile::Black;
 		m_tiles(4, 4) = ETile::White;
-		m_tiles(5, 4) = ETile::Black;
-		m_tiles(4, 5) = ETile::Black;
-		m_tiles(5, 5) = ETile::White;
 	}
 
 	bool Reversi::isOnBoard(int x, int y)
@@ -138,7 +138,15 @@ namespace rv
 			m_tiles(pos(0), pos(1)) = tile;
 		}
 
-		return ! positions.empty();
+		if (! positions.empty())
+		{
+			m_tiles(x, y) = tile;
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	const TMatrix &Reversi::getTiles() const

@@ -4,8 +4,11 @@
 
 #include <QObject>
 #include <QVector>
+#include <QList>
 
 #include <QScopedPointer>
+
+#include "Cell.hpp"
 
 namespace rv {
 	class Reversi;
@@ -21,6 +24,8 @@ class GameController : public QObject
 	Q_PROPERTY(int numBlackStones READ getNumBlackStones NOTIFY numBlackStonesChanged)
 	Q_PROPERTY(int numWhiteStones READ getNumWhiteStones NOTIFY numWhiteStonesChanged)
 
+	Q_PROPERTY(QList<QObject *> cells READ getCells NOTIFY cellsChanged)
+
 public:
 	GameController();
 	~GameController();
@@ -34,23 +39,29 @@ public:
 	int getNumBlackStones() const;
 	int getNumWhiteStones() const;
 
+	const QList<QObject *> &getCells() const;
+
 private:
 	void setCurrentPlayer(int currentPlayer);
 	void setCurrentValidMoves(const QVector<int> &currentValidMoves);
 	void setNumBlackStones(int numBlackStones);
 	void setNumWhiteStones(int numWhiteStones);
+	void setCells();
 
 signals:
 	void currentPlayerChanged();
 	void currentValidMovesChanged();
 	void numBlackStonesChanged();
 	void numWhiteStonesChanged();
+	void cellsChanged();
 
 private:
 	int m_currentPlayer;
 	QVector<int> m_currentValidMoves;
 	int m_numBlackStones;
 	int m_numWhiteStones;
+
+	QList<QObject*> m_cells;
 
 	QScopedPointer<rv::Reversi> m_game;
 };

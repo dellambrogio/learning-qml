@@ -10,6 +10,11 @@ GameController::GameController()
 	, m_numBlackStones(0)
 	, m_numWhiteStones(0)
 {
+	for (int idx=0; idx<64; ++idx)
+	{
+		m_cells.append(new Cell("transparent"));
+	}
+
 	newGame();
 }
 
@@ -26,12 +31,13 @@ void GameController::newGame()
 	setCurrentValidMoves(QVector<int>());
 	setNumBlackStones(0);
 	setNumWhiteStones(0);
+	setCells();
 }
 
 void GameController::makeMove(int idx)
 {
 	const int x = idx % 8;
-	const int y = idx / 8;
+	const int y = std::floor(idx / 8);
 
 	rv::ETile currentTile = static_cast<rv::ETile>(m_currentPlayer);
 	std::vector<Eigen::Vector2i> validMoves;
@@ -63,6 +69,8 @@ void GameController::makeMove(int idx)
 		std::map<rv::ETile, int> score = m_game->getScore();
 		setNumBlackStones(score[rv::ETile::Black]);
 		setNumWhiteStones(score[rv::ETile::White]);
+
+		setCells();
 	}
 }
 
@@ -116,4 +124,32 @@ void GameController::setNumWhiteStones(int numWhiteStones)
 		m_numWhiteStones = numWhiteStones;
 		emit numWhiteStonesChanged();
 	}
+}
+
+void GameController::setCells()
+{
+	const rv::TMatrix &tiles = m_game->getTiles();
+
+	for (int x=0; x<8; ++x)
+	{
+		for (int y=0; y<8; ++y)
+		{
+			const int idx = y*8+x;
+			Cell* cell = static_cast<Cell*>(m_cells[idx]);
+
+			if (tiles(x, y) == rv::ETile::White)
+				cell->setColor("white");
+			else if (tiles(x, y) == rv::ETile::Black)
+				cell->setColor("black");
+			else
+				cell->setColor("transparent");
+		}
+	}
+
+	emit cellsChanged();
+}
+
+const QList<QObject *> &GameController::getCells() const
+{
+	return m_cells;
 }

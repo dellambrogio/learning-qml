@@ -31,7 +31,7 @@ ApplicationWindow {
 			columns: 8
 			spacing: 10
 			Repeater {
-				model: myModel
+				model: gameController.cells
 
 				Rectangle {
 					width: 70

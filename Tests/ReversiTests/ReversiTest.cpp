@@ -49,10 +49,10 @@ TEST(ReversiTest, Init)
 
 	const TMatrix &tiles = reversi.getTiles();
 
+	EXPECT_EQ(tiles(3, 3), ETile::White);
+	EXPECT_EQ(tiles(4, 3), ETile::Black);
+	EXPECT_EQ(tiles(3, 4), ETile::Black);
 	EXPECT_EQ(tiles(4, 4), ETile::White);
-	EXPECT_EQ(tiles(5, 4), ETile::Black);
-	EXPECT_EQ(tiles(4, 5), ETile::Black);
-	EXPECT_EQ(tiles(5, 5), ETile::White);
 
 	std::map<ETile, int> score = reversi.getScore();
 
@@ -70,25 +70,25 @@ TEST(ReversiTest, isValidMove)
 	EXPECT_FALSE(reversi.isValidMove(0, 0, ETile::White));
 	EXPECT_FALSE(reversi.isValidMove(8, 8, ETile::White));
 
-	EXPECT_TRUE(reversi.isValidMove(3, 4, ETile::Black));
-	EXPECT_TRUE(reversi.isValidMove(4, 3, ETile::Black));
-	EXPECT_TRUE(reversi.isValidMove(5, 6, ETile::Black));
-	EXPECT_TRUE(reversi.isValidMove(6, 5, ETile::Black));
+	EXPECT_TRUE(reversi.isValidMove(2, 3, ETile::Black));
+	EXPECT_TRUE(reversi.isValidMove(3, 2, ETile::Black));
+	EXPECT_TRUE(reversi.isValidMove(4, 5, ETile::Black));
+	EXPECT_TRUE(reversi.isValidMove(5, 4, ETile::Black));
 
-	EXPECT_FALSE(reversi.isValidMove(3, 4, ETile::White));
-	EXPECT_FALSE(reversi.isValidMove(4, 3, ETile::White));
-	EXPECT_FALSE(reversi.isValidMove(5, 6, ETile::White));
-	EXPECT_FALSE(reversi.isValidMove(6, 5, ETile::White));
+	EXPECT_FALSE(reversi.isValidMove(2, 3, ETile::White));
+	EXPECT_FALSE(reversi.isValidMove(3, 2, ETile::White));
+	EXPECT_FALSE(reversi.isValidMove(4, 5, ETile::White));
+	EXPECT_FALSE(reversi.isValidMove(5, 4, ETile::White));
 
+	EXPECT_TRUE(reversi.isValidMove(2, 4, ETile::White));
+	EXPECT_TRUE(reversi.isValidMove(4, 2, ETile::White));
 	EXPECT_TRUE(reversi.isValidMove(3, 5, ETile::White));
 	EXPECT_TRUE(reversi.isValidMove(5, 3, ETile::White));
-	EXPECT_TRUE(reversi.isValidMove(4, 6, ETile::White));
-	EXPECT_TRUE(reversi.isValidMove(6, 4, ETile::White));
 
+	EXPECT_FALSE(reversi.isValidMove(2, 4, ETile::Black));
+	EXPECT_FALSE(reversi.isValidMove(4, 2, ETile::Black));
 	EXPECT_FALSE(reversi.isValidMove(3, 5, ETile::Black));
 	EXPECT_FALSE(reversi.isValidMove(5, 3, ETile::Black));
-	EXPECT_FALSE(reversi.isValidMove(4, 6, ETile::Black));
-	EXPECT_FALSE(reversi.isValidMove(6, 4, ETile::Black));
 }
 
 TEST(ReversiTest, validMoves)
@@ -100,21 +100,21 @@ TEST(ReversiTest, validMoves)
 	EXPECT_EQ(blacks.size(), 4);
 
 	EXPECT_EQ(std::count(blacks.begin(), blacks.end(), Eigen::Vector2i(0, 0)), 0);
-	EXPECT_EQ(std::count(blacks.begin(), blacks.end(), Eigen::Vector2i(3, 4)), 1);
-	EXPECT_EQ(std::count(blacks.begin(), blacks.end(), Eigen::Vector2i(4, 3)), 1);
-	EXPECT_EQ(std::count(blacks.begin(), blacks.end(), Eigen::Vector2i(5, 6)), 1);
-	EXPECT_EQ(std::count(blacks.begin(), blacks.end(), Eigen::Vector2i(6, 5)), 1);
+	EXPECT_EQ(std::count(blacks.begin(), blacks.end(), Eigen::Vector2i(2, 3)), 1);
+	EXPECT_EQ(std::count(blacks.begin(), blacks.end(), Eigen::Vector2i(3, 2)), 1);
+	EXPECT_EQ(std::count(blacks.begin(), blacks.end(), Eigen::Vector2i(4, 5)), 1);
+	EXPECT_EQ(std::count(blacks.begin(), blacks.end(), Eigen::Vector2i(5, 4)), 1);
 }
 
 TEST(ReversiTest, tilesToFlip)
 {
 	Reversi reversi;
 
-	const std::vector<Eigen::Vector2i> blacks = reversi.tilesToFlip(3, 4, ETile::Black);
+	const std::vector<Eigen::Vector2i> blacks = reversi.tilesToFlip(2, 3, ETile::Black);
 	EXPECT_EQ(blacks.size(), 1);
-	EXPECT_EQ(blacks[0], Eigen::Vector2i(4, 4));
+	EXPECT_EQ(blacks[0], Eigen::Vector2i(3, 3));
 
-	const std::vector<Eigen::Vector2i> whites = reversi.tilesToFlip(3, 5, ETile::White);
+	const std::vector<Eigen::Vector2i> whites = reversi.tilesToFlip(2, 4, ETile::White);
 	EXPECT_EQ(whites.size(), 1);
-	EXPECT_EQ(whites[0], Eigen::Vector2i(4, 5));
+	EXPECT_EQ(whites[0], Eigen::Vector2i(3, 4));
 }

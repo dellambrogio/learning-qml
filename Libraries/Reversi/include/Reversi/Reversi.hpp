@@ -2,22 +2,16 @@
 #ifndef REVERSI_REVERSI_HPP
 #define REVERSI_REVERSI_HPP
 
-#include <Eigen/Dense>
-
 #include <vector>
 #include <map>
 
+#include <Eigen/Dense>
+
+#include <Reversi/Tile.hpp>
+
 namespace rv
 {
-	enum ETile {
-		Unknown = -1,
-		Black = 0,
-		White = 1
-	};
-
 	typedef Eigen::Matrix<ETile, 8, 8> TMatrix;
-
-	typedef Eigen::Vector2i TPos;
 
 	class Reversi
 	{

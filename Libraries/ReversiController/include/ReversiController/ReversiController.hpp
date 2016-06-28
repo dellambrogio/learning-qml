@@ -2,16 +2,17 @@
 #ifndef REVERSICONTROLLER_REVERSICONTROLLER_HPP
 #define REVERSICONTROLLER_REVERSICONTROLLER_HPP
 
+#include <memory>
+
 #include <QObject>
 #include <QVector>
 #include <QList>
-
-#include <QScopedPointer>
 
 #include "CellData.hpp"
 
 namespace rv {
 	class Reversi;
+	class ReversiAI;
 }
 
 // http://doc.qt.io/qt-5/qtquick-modelviewsdata-cppmodels.html
@@ -79,7 +80,8 @@ private:
 
 	QList<QObject*> m_cells;
 
-	QScopedPointer<rv::Reversi> m_game;
+	std::shared_ptr<rv::Reversi> m_game;
+	std::unique_ptr<rv::ReversiAI> m_gameAi;
 };
 
 #endif

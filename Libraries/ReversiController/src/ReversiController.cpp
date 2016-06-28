@@ -2,6 +2,7 @@
 #include "ReversiController/ReversiController.hpp"
 
 #include <Reversi/Reversi.hpp>
+#include <Reversi/ReversiAI.hpp>
 
 
 ReversiController::ReversiController()
@@ -27,6 +28,8 @@ void ReversiController::newGame()
 {
 	m_game.reset(new rv::Reversi);
 
+	m_gameAi.reset(new rv::ReversiAI(rv::ETile::White, m_game));
+
 	updateInternalState(Black);
 }
 
@@ -39,7 +42,10 @@ void ReversiController::makeMove(int idx)
 
 	if (m_game->makeMove(x, y, currentTile))
 	{
-		updateInternalState(opponent(m_currentPlayer));
+		if (m_gameAi->makeNextMove())
+			updateInternalState(m_currentPlayer);
+		else
+			updateInternalState(opponent(m_currentPlayer));
 	}
 }
 

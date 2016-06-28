@@ -53,11 +53,14 @@ public slots:
 	void makeMove(int idx);
 
 private:
-	void setCurrentPlayer(EPlayer currentPlayer);
+	void updateInternalState(EPlayer newPlayer);
+	void setCurrentPlayer(EPlayer newPlayer);
 	void setCurrentValidMoves(const QVector<int> &currentValidMoves);
 	void setNumBlackStones(int numBlackStones);
 	void setNumWhiteStones(int numWhiteStones);
 	void setCells();
+
+	static EPlayer opponent(EPlayer player);
 
 signals:
 	void currentPlayerChanged();

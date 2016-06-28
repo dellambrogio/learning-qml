@@ -6,7 +6,7 @@
 
 ReversiController::ReversiController()
 	: QObject()
-	, m_currentPlayer(Black)
+	, m_currentPlayer(Unknown)
 	, m_numBlackStones(0)
 	, m_numWhiteStones(0)
 {
@@ -27,11 +27,7 @@ void ReversiController::newGame()
 {
 	m_game.reset(new rv::Reversi);
 
-	setCurrentPlayer(Black);
-	setCurrentValidMoves(QVector<int>());
-	setNumBlackStones(2);
-	setNumWhiteStones(2);
-	setCells();
+	updateInternalState(Black);
 }
 
 void ReversiController::makeMove(int idx)
@@ -40,39 +36,45 @@ void ReversiController::makeMove(int idx)
 	const int y = std::floor(idx / 8);
 
 	rv::ETile currentTile = static_cast<rv::ETile>(m_currentPlayer);
-	std::vector<Eigen::Vector2i> validMoves;
 
 	if (m_game->makeMove(x, y, currentTile))
+	{
+		updateInternalState(opponent(m_currentPlayer));
+	}
+}
+
+void ReversiController::updateInternalState(EPlayer newPlayer)
+{
+	rv::ETile currentTile = static_cast<rv::ETile>(newPlayer);
+
+	std::vector<Eigen::Vector2i> validMoves;
+	validMoves = m_game->getValidMoves(currentTile);
+
+	if (validMoves.empty())
 	{
 		currentTile = rv::Reversi::opponent(currentTile);
 		validMoves = m_game->getValidMoves(currentTile);
 
 		if (validMoves.empty())
 		{
-			currentTile = rv::Reversi::opponent(currentTile);
-			validMoves = m_game->getValidMoves(currentTile);
-
-			if (validMoves.empty())
-			{
-				currentTile = rv::ETile::Unknown;
-			}
+			currentTile = rv::ETile::Unknown;
 		}
-
-		EPlayer newPlayer = static_cast<EPlayer>(currentTile);
-		setCurrentPlayer(newPlayer);
-		QVector<int> currentValidMoves;
-		for (const Eigen::Vector2i& move: validMoves)
-		{
-			currentValidMoves.push_back(move(0)+move(1)*8);
-		}
-		setCurrentValidMoves(currentValidMoves);
-
-		std::map<rv::ETile, int> score = m_game->getScore();
-		setNumBlackStones(score[rv::ETile::Black]);
-		setNumWhiteStones(score[rv::ETile::White]);
-
-		setCells();
 	}
+
+	newPlayer = static_cast<EPlayer>(currentTile);
+	setCurrentPlayer(newPlayer);
+	QVector<int> currentValidMoves;
+	for (const Eigen::Vector2i& move: validMoves)
+	{
+		currentValidMoves.push_back(move(0)+move(1)*8);
+	}
+	setCurrentValidMoves(currentValidMoves);
+
+	std::map<rv::ETile, int> score = m_game->getScore();
+	setNumBlackStones(score[rv::ETile::Black]);
+	setNumWhiteStones(score[rv::ETile::White]);
+
+	setCells();
 }
 
 ReversiController::EPlayer ReversiController::getCurrentPlayer() const
@@ -80,10 +82,10 @@ ReversiController::EPlayer ReversiController::getCurrentPlayer() const
 	return m_currentPlayer;
 }
 
-void ReversiController::setCurrentPlayer(EPlayer currentPlayer)
+void ReversiController::setCurrentPlayer(EPlayer newPlayer)
 {
-	if (currentPlayer != m_currentPlayer) {
-		m_currentPlayer = currentPlayer;
+	if (newPlayer != m_currentPlayer) {
+		m_currentPlayer = newPlayer;
 		emit currentPlayerChanged();
 	}
 }
@@ -150,6 +152,16 @@ void ReversiController::setCells()
 	}
 
 	emit cellsChanged();
+}
+
+ReversiController::EPlayer ReversiController::opponent(ReversiController::EPlayer player)
+{
+	if (player == EPlayer::Black)
+		return EPlayer::White;
+	else if (player == EPlayer::White)
+		return EPlayer::Black;
+	else
+		return player;
 }
 
 const QList<QObject *> &ReversiController::getCells() const

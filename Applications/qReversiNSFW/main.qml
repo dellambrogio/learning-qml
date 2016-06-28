@@ -64,7 +64,6 @@ ApplicationWindow {
 		}
 	}
 
-
 	Rectangle {
 		anchors.centerIn: parent
 		width: 650

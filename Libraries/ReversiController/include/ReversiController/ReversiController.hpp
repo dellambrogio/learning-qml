@@ -19,30 +19,41 @@ namespace rv {
 class ReversiController : public QObject
 {
 	Q_OBJECT
-	Q_PROPERTY(int currentPlayer READ getCurrentPlayer NOTIFY currentPlayerChanged)
+	Q_PROPERTY(EPlayer currentPlayer READ getCurrentPlayer NOTIFY currentPlayerChanged)
 	Q_PROPERTY(QVector<int> currentValidMoves READ getCurrentValidMoves NOTIFY currentValidMovesChanged)
 	Q_PROPERTY(int numBlackStones READ getNumBlackStones NOTIFY numBlackStonesChanged)
 	Q_PROPERTY(int numWhiteStones READ getNumWhiteStones NOTIFY numWhiteStonesChanged)
 
 	Q_PROPERTY(QList<QObject *> cells READ getCells NOTIFY cellsChanged)
 
+	Q_ENUMS(EPlayer)
+
+public:
+	enum EPlayer
+	{
+		Unknown = -1,
+		Black = 0,
+		White = 1
+	};
+
 public:
 	ReversiController();
 	~ReversiController();
 
-	Q_INVOKABLE void newGame();
+	EPlayer getCurrentPlayer() const;
 
-	Q_INVOKABLE void makeMove(int idx);
-
-	int getCurrentPlayer() const;
 	const QVector<int> &getCurrentValidMoves() const;
 	int getNumBlackStones() const;
 	int getNumWhiteStones() const;
 
 	const QList<QObject *> &getCells() const;
 
+public slots:
+	void newGame();
+	void makeMove(int idx);
+
 private:
-	void setCurrentPlayer(int currentPlayer);
+	void setCurrentPlayer(EPlayer currentPlayer);
 	void setCurrentValidMoves(const QVector<int> &currentValidMoves);
 	void setNumBlackStones(int numBlackStones);
 	void setNumWhiteStones(int numWhiteStones);
@@ -56,8 +67,10 @@ signals:
 	void cellsChanged();
 
 private:
-	int m_currentPlayer;
+	EPlayer m_currentPlayer;
+
 	QVector<int> m_currentValidMoves;
+
 	int m_numBlackStones;
 	int m_numWhiteStones;
 

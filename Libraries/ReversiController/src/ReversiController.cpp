@@ -6,7 +6,7 @@
 
 ReversiController::ReversiController()
 	: QObject()
-	, m_currentPlayer(0)
+	, m_currentPlayer(Black)
 	, m_numBlackStones(0)
 	, m_numWhiteStones(0)
 {
@@ -27,10 +27,10 @@ void ReversiController::newGame()
 {
 	m_game.reset(new rv::Reversi);
 
-	setCurrentPlayer(rv::ETile::Black);
+	setCurrentPlayer(Black);
 	setCurrentValidMoves(QVector<int>());
-	setNumBlackStones(0);
-	setNumWhiteStones(0);
+	setNumBlackStones(2);
+	setNumWhiteStones(2);
 	setCells();
 }
 
@@ -58,7 +58,8 @@ void ReversiController::makeMove(int idx)
 			}
 		}
 
-		setCurrentPlayer(currentTile);
+		EPlayer newPlayer = static_cast<EPlayer>(currentTile);
+		setCurrentPlayer(newPlayer);
 		QVector<int> currentValidMoves;
 		for (const Eigen::Vector2i& move: validMoves)
 		{
@@ -74,12 +75,12 @@ void ReversiController::makeMove(int idx)
 	}
 }
 
-int ReversiController::getCurrentPlayer() const
+ReversiController::EPlayer ReversiController::getCurrentPlayer() const
 {
 	return m_currentPlayer;
 }
 
-void ReversiController::setCurrentPlayer(int currentPlayer)
+void ReversiController::setCurrentPlayer(EPlayer currentPlayer)
 {
 	if (currentPlayer != m_currentPlayer) {
 		m_currentPlayer = currentPlayer;

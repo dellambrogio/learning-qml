@@ -83,6 +83,13 @@ ApplicationWindow {
 					width: 70
 					height: 70
 					color: model.modelData.color
+					border.color: "light blue"
+					border.width: {
+						if (model.modelData.isValidMove)
+							2
+						else
+							0
+					}
 
 					MouseArea {
 						anchors.fill: parent

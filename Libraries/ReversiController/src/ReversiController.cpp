@@ -144,10 +144,10 @@ void ReversiController::setCells()
 				cell->setColor("white");
 			else if (tiles(x, y) == rv::ETile::Black)
 				cell->setColor("black");
-			else if (m_currentValidMoves.contains(idx))
-				cell->setColor("lightgray");
 			else
 				cell->setColor("transparent");
+
+			cell->setIsValidMove(m_currentValidMoves.contains(idx));
 		}
 	}
 

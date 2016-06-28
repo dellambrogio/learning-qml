@@ -19,3 +19,16 @@ void CellData::setColor(const QString &color)
 		emit colorChanged();
 	}
 }
+
+bool CellData::isValidMove() const
+{
+	return m_isValidMove;
+}
+
+void CellData::setIsValidMove(bool isValidMove)
+{
+	if (isValidMove != m_isValidMove) {
+		m_isValidMove = isValidMove;
+		emit isValidMoveChanged();
+	}
+}

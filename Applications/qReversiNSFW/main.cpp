@@ -3,7 +3,7 @@
 #include <QQmlContext>
 #include <QQmlApplicationEngine>
 
-#include "GameController.hpp"
+#include <ReversiController/ReversiController.hpp>
 
 int main(int argc, char *argv[])
 {
@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 
 	QQmlApplicationEngine engine;
 	
-	GameController gameController;
+	ReversiController gameController;
 	engine.rootContext()->setContextProperty("gameController", &gameController);
 
 	engine.load(QUrl(QStringLiteral("qrc:/main.qml")));

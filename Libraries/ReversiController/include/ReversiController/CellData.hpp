@@ -1,18 +1,18 @@
 
-#ifndef QREVERSI_CELL_HPP
-#define QREVERSI_CELL_HPP
+#ifndef REVERSICONTROLLER_CELLDATA_HPP
+#define REVERSICONTROLLER_CELLDATA_HPP
 
 #include <QObject>
 #include <QString>
 
-class Cell : public QObject
+class CellData : public QObject
 {
 	Q_OBJECT
 
 	Q_PROPERTY(QString color READ color WRITE setColor NOTIFY colorChanged)
 
 public:
-	explicit Cell(const QString &color);
+	explicit CellData(const QString &color);
 
 	QString color() const;
 	void setColor(const QString &color);

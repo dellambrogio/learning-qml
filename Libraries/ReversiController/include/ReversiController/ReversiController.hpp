@@ -1,6 +1,6 @@
 
-#ifndef QREVERSI_GAMECONTROLLER_HPP
-#define QREVERSI_GAMECONTROLLER_HPP
+#ifndef REVERSICONTROLLER_REVERSICONTROLLER_HPP
+#define REVERSICONTROLLER_REVERSICONTROLLER_HPP
 
 #include <QObject>
 #include <QVector>
@@ -8,7 +8,7 @@
 
 #include <QScopedPointer>
 
-#include "Cell.hpp"
+#include "CellData.hpp"
 
 namespace rv {
 	class Reversi;
@@ -16,7 +16,7 @@ namespace rv {
 
 // http://doc.qt.io/qt-5/qtquick-modelviewsdata-cppmodels.html
 
-class GameController : public QObject
+class ReversiController : public QObject
 {
 	Q_OBJECT
 	Q_PROPERTY(int currentPlayer READ getCurrentPlayer NOTIFY currentPlayerChanged)
@@ -27,8 +27,8 @@ class GameController : public QObject
 	Q_PROPERTY(QList<QObject *> cells READ getCells NOTIFY cellsChanged)
 
 public:
-	GameController();
-	~GameController();
+	ReversiController();
+	~ReversiController();
 
 	Q_INVOKABLE void newGame();
 

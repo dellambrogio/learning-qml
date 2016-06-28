@@ -1,10 +1,10 @@
 
-#include "GameController.hpp"
+#include "ReversiController/ReversiController.hpp"
 
 #include <Reversi/Reversi.hpp>
 
 
-GameController::GameController()
+ReversiController::ReversiController()
 	: QObject()
 	, m_currentPlayer(0)
 	, m_numBlackStones(0)
@@ -12,18 +12,18 @@ GameController::GameController()
 {
 	for (int idx=0; idx<64; ++idx)
 	{
-		m_cells.append(new Cell("transparent"));
+		m_cells.append(new CellData("transparent"));
 	}
 
 	newGame();
 }
 
-GameController::~GameController()
+ReversiController::~ReversiController()
 {
 
 }
 
-void GameController::newGame()
+void ReversiController::newGame()
 {
 	m_game.reset(new rv::Reversi);
 
@@ -34,7 +34,7 @@ void GameController::newGame()
 	setCells();
 }
 
-void GameController::makeMove(int idx)
+void ReversiController::makeMove(int idx)
 {
 	const int x = idx % 8;
 	const int y = std::floor(idx / 8);
@@ -74,12 +74,12 @@ void GameController::makeMove(int idx)
 	}
 }
 
-int GameController::getCurrentPlayer() const
+int ReversiController::getCurrentPlayer() const
 {
 	return m_currentPlayer;
 }
 
-void GameController::setCurrentPlayer(int currentPlayer)
+void ReversiController::setCurrentPlayer(int currentPlayer)
 {
 	if (currentPlayer != m_currentPlayer) {
 		m_currentPlayer = currentPlayer;
@@ -87,12 +87,12 @@ void GameController::setCurrentPlayer(int currentPlayer)
 	}
 }
 
-const QVector<int> &GameController::getCurrentValidMoves() const
+const QVector<int> &ReversiController::getCurrentValidMoves() const
 {
 	return m_currentValidMoves;
 }
 
-void GameController::setCurrentValidMoves(const QVector<int> &currentValidMoves)
+void ReversiController::setCurrentValidMoves(const QVector<int> &currentValidMoves)
 {
 	if (currentValidMoves != m_currentValidMoves) {
 		m_currentValidMoves = currentValidMoves;
@@ -100,12 +100,12 @@ void GameController::setCurrentValidMoves(const QVector<int> &currentValidMoves)
 	}
 }
 
-int GameController::getNumBlackStones() const
+int ReversiController::getNumBlackStones() const
 {
 	return m_numBlackStones;
 }
 
-void GameController::setNumBlackStones(int numBlackStones)
+void ReversiController::setNumBlackStones(int numBlackStones)
 {
 	if (numBlackStones != m_numBlackStones) {
 		m_numBlackStones = numBlackStones;
@@ -113,12 +113,12 @@ void GameController::setNumBlackStones(int numBlackStones)
 	}
 }
 
-int GameController::getNumWhiteStones() const
+int ReversiController::getNumWhiteStones() const
 {
 	return m_numWhiteStones;
 }
 
-void GameController::setNumWhiteStones(int numWhiteStones)
+void ReversiController::setNumWhiteStones(int numWhiteStones)
 {
 	if (numWhiteStones != m_numWhiteStones) {
 		m_numWhiteStones = numWhiteStones;
@@ -126,7 +126,7 @@ void GameController::setNumWhiteStones(int numWhiteStones)
 	}
 }
 
-void GameController::setCells()
+void ReversiController::setCells()
 {
 	const rv::TMatrix &tiles = m_game->getTiles();
 
@@ -135,7 +135,7 @@ void GameController::setCells()
 		for (int y=0; y<8; ++y)
 		{
 			const int idx = y*8+x;
-			Cell* cell = static_cast<Cell*>(m_cells[idx]);
+			CellData* cell = static_cast<CellData*>(m_cells[idx]);
 
 			if (tiles(x, y) == rv::ETile::White)
 				cell->setColor("white");
@@ -149,7 +149,7 @@ void GameController::setCells()
 	emit cellsChanged();
 }
 
-const QList<QObject *> &GameController::getCells() const
+const QList<QObject *> &ReversiController::getCells() const
 {
 	return m_cells;
 }

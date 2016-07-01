@@ -1,6 +1,6 @@
 
-#ifndef REVERSI_REVERSIAI_HPP
-#define REVERSI_REVERSIAI_HPP
+#ifndef REVERSI_REVERSI_SIMPLE_CONSTRAINTED_AI_HPP
+#define REVERSI_REVERSI_SIMPLE_CONSTRAINTED_AI_HPP
 
 #include <memory>
 #include <vector>
@@ -13,10 +13,10 @@ namespace rv
 {
 	class Reversi;
 
-	class ReversiAI
+	class ReversiSimpleConstraintedAI
 	{
 	public:
-		ReversiAI(ETile tile, const std::shared_ptr<Reversi> game);
+		ReversiSimpleConstraintedAI(ETile tile, const std::shared_ptr<Reversi> game);
 
 		bool makeNextMove();
 

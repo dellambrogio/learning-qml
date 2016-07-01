@@ -2,7 +2,7 @@
 #include "ReversiController/ReversiController.hpp"
 
 #include <Reversi/Reversi.hpp>
-#include <Reversi/ReversiAI.hpp>
+#include <Reversi/ReversiSimpleAI.hpp>
 
 
 ReversiController::ReversiController()
@@ -28,7 +28,7 @@ void ReversiController::newGame()
 {
 	m_game.reset(new rv::Reversi);
 
-	m_gameAi.reset(new rv::ReversiAI(rv::ETile::White, m_game));
+	m_gameAi.reset(new rv::ReversiSimpleAI(rv::ETile::White, m_game));
 
 	updateInternalState(Black);
 }

@@ -12,7 +12,7 @@
 
 namespace rv {
 	class Reversi;
-	class ReversiAI;
+	class ReversiSimpleAI;
 }
 
 // http://doc.qt.io/qt-5/qtquick-modelviewsdata-cppmodels.html
@@ -81,7 +81,7 @@ private:
 	QList<QObject*> m_cells;
 
 	std::shared_ptr<rv::Reversi> m_game;
-	std::unique_ptr<rv::ReversiAI> m_gameAi;
+	std::unique_ptr<rv::ReversiSimpleAI> m_gameAi;
 };
 
 #endif

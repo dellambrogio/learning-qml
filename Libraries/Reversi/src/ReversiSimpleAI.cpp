@@ -1,5 +1,5 @@
 
-#include "Reversi/ReversiAI.hpp"
+#include "Reversi/ReversiSimpleAI.hpp"
 
 #include "Reversi/Reversi.hpp"
 
@@ -19,14 +19,14 @@ I random_element(I begin, I end)
 
 namespace rv
 {
-	ReversiAI::ReversiAI(ETile tile, const std::shared_ptr<Reversi> game)
+	ReversiSimpleAI::ReversiSimpleAI(ETile tile, const std::shared_ptr<Reversi> game)
 		: m_tile(tile)
 		, m_game(game)
 	{
 
 	}
 
-	bool ReversiAI::makeNextMove()
+	bool ReversiSimpleAI::makeNextMove()
 	{
 		const std::vector<Eigen::Vector2i> bestMoves = getNextBestMoves();
 
@@ -41,7 +41,7 @@ namespace rv
 		}
 	}
 
-	std::vector<Eigen::Vector2i> ReversiAI::getNextBestMoves() const
+	std::vector<Eigen::Vector2i> ReversiSimpleAI::getNextBestMoves() const
 	{
 		std::vector<Eigen::Vector2i> bestMoves;
 		unsigned maxWeight = 0;

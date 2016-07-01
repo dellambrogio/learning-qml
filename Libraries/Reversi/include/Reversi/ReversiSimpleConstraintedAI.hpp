@@ -9,22 +9,26 @@
 
 #include <Reversi/Tile.hpp>
 
+#include <Reversi/ReversiAI.hpp>
+
 namespace rv
 {
 	class Reversi;
 
-	class ReversiSimpleConstraintedAI
+	class ReversiSimpleConstraintedAI : public ReversiAI
 	{
 	public:
 		ReversiSimpleConstraintedAI(ETile tile, const std::shared_ptr<Reversi> game);
+		virtual ~ReversiSimpleConstraintedAI();
 
-		bool makeNextMove();
+		virtual bool makeNextMove();
 
-		std::vector<Eigen::Vector2i> getNextBestMoves() const;
+		virtual std::vector<Eigen::Vector2i> getNextBestMoves() const;
 
 	private:
 		const ETile m_tile;
 		std::shared_ptr<Reversi> m_game;
+		Eigen::Matrix<float, 8, 8> m_strategicWeights;
 	};
 }
 

@@ -3,7 +3,7 @@
 
 #include <Reversi/Reversi.hpp>
 #include <Reversi/ReversiSimpleAI.hpp>
-
+#include <Reversi/ReversiSimpleConstraintedAI.hpp>
 
 ReversiController::ReversiController()
 	: QObject()
@@ -28,7 +28,10 @@ void ReversiController::newGame()
 {
 	m_game.reset(new rv::Reversi);
 
-	m_gameAi.reset(new rv::ReversiSimpleAI(rv::ETile::White, m_game));
+	if (false)
+		m_gameAi.reset(new rv::ReversiSimpleAI(rv::ETile::White, m_game));
+	else
+		m_gameAi.reset(new rv::ReversiSimpleConstraintedAI(rv::ETile::White, m_game));
 
 	updateInternalState(Black);
 }

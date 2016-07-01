@@ -32,3 +32,4 @@ void CellData::setIsValidMove(bool isValidMove)
 		emit isValidMoveChanged();
 	}
 }
+

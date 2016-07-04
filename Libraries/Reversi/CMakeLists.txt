@@ -1,16 +1,16 @@
 
-cmake_minimum_required(VERSION 3.2)
+cmake_minimum_required(VERSION 3.0)
 
 project(Reversi)
 
 find_package(Eigen3 REQUIRED)
 
-file(GLOB HEADERS 
+file(GLOB HEADERS
 	include/${PROJECT_NAME}/*.hpp
 	src/*.hpp
 )
 
-file(GLOB SOURCES 
+file(GLOB SOURCES
 	src/*.cpp
 )
 

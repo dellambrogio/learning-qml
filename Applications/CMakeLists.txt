@@ -7,5 +7,6 @@
 cmake_minimum_required(VERSION 3.0)
 
 add_subdirectory(MoviePlayer)
+add_subdirectory(FileNavigator)
 add_subdirectory(qReversi)
 add_subdirectory(qReversiNSFW)

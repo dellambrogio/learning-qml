@@ -1,0 +1,3 @@
+[submodule "External/qtquickcontrols2"]
+	path = External/qtquickcontrols2
+	url = https://github.com/qt/qtquickcontrols2.git

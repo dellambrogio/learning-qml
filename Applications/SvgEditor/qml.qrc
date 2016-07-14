@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>qtquickcontrols2.conf</file>
+        <file>MyPoint.qml</file>
+        <file>componentCreation.js</file>
+        <file>castle.png</file>
+    </qresource>
+</RCC>

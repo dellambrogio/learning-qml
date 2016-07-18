@@ -1,5 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
+        <file>ControlPoint.qml</file>
+        <file>componentCreation.js</file>
     </qresource>
 </RCC>

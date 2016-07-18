@@ -9,7 +9,10 @@ Rectangle {
 	MouseArea {
 		anchors.fill: parent
 		onClicked: {
-			console.log("clicked");
+			//console.log("clicked");
+		}
+		onPositionChanged: {
+			//console.log(this.x + " " + this.y);
 		}
 		drag.target: parent
 		drag.axis: Drag.XandYAxis

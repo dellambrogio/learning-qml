@@ -7,8 +7,8 @@
 
 int main(int argc, char *argv[])
 {
-	QGuiApplication::setApplicationName("CanvasPaint");
-	QGuiApplication::setOrganizationName("CanvasPaint");
+	QGuiApplication::setApplicationName("CanvasVector");
+	QGuiApplication::setOrganizationName("CanvasVector");
 	QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
 	QQuickStyle::setStyle("Material");

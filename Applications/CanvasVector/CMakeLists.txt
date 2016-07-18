@@ -1,12 +1,12 @@
 
 cmake_minimum_required(VERSION 2.8.11)
 
-project(CanvasPaint)
+project(CanvasVector)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 
-find_package(Qt5 COMPONENTS Quick Core QuickControls2)
+find_package(Qt5 COMPONENTS Widgets Quick Core QuickControls2)
 
 file(GLOB SOURCES
 	*.hpp
@@ -26,7 +26,9 @@ add_executable(${PROJECT_NAME}
 )
 
 target_link_libraries(${PROJECT_NAME}
+	ReversiController
 	Qt5::Core
+	Qt5::Widgets
 	Qt5::Quick
 	Qt5::QuickControls2
 )

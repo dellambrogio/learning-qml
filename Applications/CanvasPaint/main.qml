@@ -8,6 +8,7 @@ ApplicationWindow {
 	height: 600
 	visible: true
 	title: "CanvasPaint"
+	color: "#494949"
 
 	Row {
 			id: colorTools
@@ -32,15 +33,19 @@ ApplicationWindow {
 			}
 	}
 
+	Rectangle {
+		width: 800
+		height: 600
+		anchors.centerIn: parent
+		color: "black"
+	}
+
 	Canvas {
 			id: canvas
-			anchors {
-					left: parent.left
-					right: parent.right
-					top: colorTools.bottom
-					bottom: parent.bottom
-					margins: 8
-			}
+			width: 800
+			height: 600
+			anchors.centerIn: parent
+
 			property real lastX
 			property real lastY
 			property color color: colorTools.paintColor

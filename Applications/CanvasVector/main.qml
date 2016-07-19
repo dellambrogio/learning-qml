@@ -1,7 +1,6 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
-import "componentCreation.js" as MyScript
 
 
 ApplicationWindow {
@@ -18,33 +17,55 @@ ApplicationWindow {
 			anchors.fill: parent
 
 			ToolButton {
-				text: "add POI"
+				text: "Add Poi"
 				onClicked: {
-					//MyScript.createSpriteObjects();
 				}
 			}
 		}
 	}
 
-	property var selectedPoi : null;
 
-	ListModel {
-		id: pois
-		ListElement { points: [
-				ListElement{x: 0.2; y: 0.4},
-				ListElement{x: 0.5; y: 0.5},
-				ListElement{x: 0.3; y: 0.9}
-			] }
+	Row {
+			spacing: 20
+			anchors.horizontalCenter: parent.horizontalCenter
 
-		ListElement { points: [
-				ListElement{x: 0.8; y: 0.1},
-				ListElement{x: 0.9; y: 0.1},
-				ListElement{x: 0.9; y: 0.3},
-				ListElement{x: 0.8; y: 0.3}
-			] }
+			RadioButton {
+					text: "square"
+					checked: true
+					onCheckedChanged: {
+						if (checked)
+							selectedModel = square
+					}
+			}
+			RadioButton {
+					text: "triangle"
+					onCheckedChanged: {
+						if (checked)
+							selectedModel = triangle
+					}
+			}
 	}
 
-	//	Row {
+
+	property var selectedModel: square;
+
+	ListModel {
+		id: triangle
+		ListElement{px: 0.2; py: 0.4}
+		ListElement{px: 0.5; py: 0.5}
+		ListElement{px: 0.3; py: 0.9}
+	}
+
+	ListModel {
+		id: square
+		ListElement{px: 0.8; py: 0.1}
+		ListElement{px: 0.9; py: 0.1}
+		ListElement{px: 0.9; py: 0.3}
+		ListElement{px: 0.8; py: 0.3}
+	}
+
+
+	//	Row
 	//			id: colorTools
 	//			anchors {
 	//					horizontalCenter: parent.horizontalCenter
@@ -80,40 +101,40 @@ ApplicationWindow {
 			width: parent.width
 			height: parent.height
 
-			onPaint: {
-				var ctx = getContext('2d')
-
+			function drawItem(ctx, model)
+			{
 				ctx.fillStyle = 'white'
 				var size = 6
 				var hhsize = size * 0.5
 
-				for(var i=0; i<pois.count; i++) {
+				ctx.beginPath()
 
-					var points = pois.get(i).points
+				for (var j=0; j<model.count; j++) {
 
-					ctx.beginPath()
+					var x = (model.get(j).px * width) - hhsize
+					var y = (model.get(j).py * height) - hhsize
 
-					for (var j=0; j<points.count; j++) {
-
-						var x = (points.get(j).x * width) - hhsize
-						var y = (points.get(j).y * height) - hhsize
-
-						if (j===0)
-							ctx.moveTo(x, y)
-						else
-							ctx.lineTo(x, y)
-					}
-
-					ctx.closePath();
-					ctx.lineWidth = 5;
-					ctx.fillStyle = '#8ED6FF';
-					ctx.fill();
-					ctx.strokeStyle = 'blue';
-					ctx.stroke();
-
+					if (j===0)
+						ctx.moveTo(x, y)
+					else
+						ctx.lineTo(x, y)
 				}
 
+				ctx.closePath();
+				ctx.lineWidth = 5;
+				ctx.fillStyle = '#8ED6FF';
+				ctx.fill();
+				ctx.strokeStyle = 'blue';
+				ctx.stroke();
 			}
+
+			onPaint: {
+				var ctx = getContext('2d')
+				ctx.clearRect(0, 0, width, height);
+				drawItem(ctx, triangle)
+				drawItem(ctx, square)
+			}
+
 			MouseArea {
 				id: area
 				anchors.fill: parent
@@ -131,33 +152,26 @@ ApplicationWindow {
 			}
 		}
 
-	}
+		Repeater {
+			model: selectedModel
 
+			ControlPoint {
+				x: (px * canvas.width) - (width*0.5)
+				y: (py * canvas.height) - (height*0.5)
+				onPositionChanged: {
+					var px = (x + (width*0.5)) / canvas.width
+					var py = (y + (height*0.5)) / canvas.height
+					//console.log(px + " " + py);
 
-	Repeater {
-		model: pois
+					selectedModel.get(index).px = px;
+					selectedModel.get(index).py = py;
 
-		Item {
-			Component.onCompleted: {
-				var points = pois.get(index).points
-				var size = 12
-				var hhsize = size * 0.5
-
-				for (var j=0; j<points.count; j++) {
-
-					var x = (points.get(j).x * canvas.width) - hhsize
-					var y = (points.get(j).y * canvas.height) - hhsize
-
-					var component = Qt.createComponent("ControlPoint.qml");
-
-					if (component.status === Component.Ready) {
-						var obj = {"x": x, "y": y, "width": size, "height": size}
-						var cp = component.createObject(stage, obj);
-					}
+					canvas.requestPaint()
 				}
 			}
 		}
 
 	}
+
 }
 

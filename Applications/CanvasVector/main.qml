@@ -26,6 +26,8 @@ ApplicationWindow {
 		}
 	}
 
+	property var selectedPoi : null;
+
 	ListModel {
 		id: pois
 		ListElement { points: [
@@ -35,9 +37,10 @@ ApplicationWindow {
 			] }
 
 		ListElement { points: [
-				ListElement{x: 0.4; y: 0.8},
-				ListElement{x: 0.4; y: 0.9},
-				ListElement{x: 0.3; y: 0.7}
+				ListElement{x: 0.8; y: 0.1},
+				ListElement{x: 0.9; y: 0.1},
+				ListElement{x: 0.9; y: 0.3},
+				ListElement{x: 0.8; y: 0.3}
 			] }
 	}
 
@@ -130,49 +133,31 @@ ApplicationWindow {
 
 	}
 
-	Column {
-		spacing: 2
 
-		Repeater {
-			model: pois
+	Repeater {
+		model: pois
 
-			Item {
-				Component.onCompleted: {
-					var points = pois.get(index).points
-					var size = 12
-					var hhsize = size * 0.5
+		Item {
+			Component.onCompleted: {
+				var points = pois.get(index).points
+				var size = 12
+				var hhsize = size * 0.5
 
-					for (var j=0; j<points.count; j++) {
+				for (var j=0; j<points.count; j++) {
 
-						var x = (points.get(j).x * canvas.width) - hhsize
-						var y = (points.get(j).y * canvas.height) - hhsize
+					var x = (points.get(j).x * canvas.width) - hhsize
+					var y = (points.get(j).y * canvas.height) - hhsize
 
-						var component = Qt.createComponent("ControlPoint.qml");
+					var component = Qt.createComponent("ControlPoint.qml");
 
-						if (component.status === Component.Ready) {
-							var obj = {"x": x, "y": y, "width": size, "height": size}
-							var cp = component.createObject(stage, obj);
-						}
+					if (component.status === Component.Ready) {
+						var obj = {"x": x, "y": y, "width": size, "height": size}
+						var cp = component.createObject(stage, obj);
 					}
 				}
 			}
-
-			//					Repeater {
-			//						model: modelData.points
-
-			//						ControlPoint {
-			//							x: 100
-			//							y: 100
-			//						}
-
-			//					}
-
-			//					Text {
-			//							width: 120
-			//							height: 32
-			//							text: index
-			//							color: "white"
-			//					}
 		}
+
 	}
 }
+

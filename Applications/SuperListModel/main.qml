@@ -79,5 +79,10 @@ Window {
         }
     }
 
-
+    MouseArea {
+        anchors.fill: parent
+        onClicked: {
+            ctrl.addNew();
+        }
+    }
 }

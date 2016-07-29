@@ -8,12 +8,10 @@ SuperListController::SuperListController(QObject* parent)
 {
     _augmentations.append(new AugData("qui", this));
     _augmentations.append(new AugData("quo", this));
-    _augmentations.append(new AugData("qua", this));
 
     _augmentationsModel = new  QQmlObjectListModel<AugData>(0, "name");
     _augmentationsModel->append(new AugData("qui", this));
     _augmentationsModel->append(new AugData("quo", this));
-    _augmentationsModel->append(new AugData("qua", this));
 }
 
 QList<QObject*> SuperListController::augmentations() const
@@ -32,4 +30,10 @@ void SuperListController::setAugmentations(const QList<QObject*>& augmentations)
 QAbstractItemModel* SuperListController::augmentations2()
 {
     return _augmentationsModel;
+}
+
+void SuperListController::addNew()
+{
+    _augmentations.append(new AugData("qua", this));
+    _augmentationsModel->append(new AugData("qua", this));
 }

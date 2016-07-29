@@ -23,6 +23,8 @@ public:
 
     QAbstractItemModel* augmentations2();
 
+    Q_INVOKABLE void addNew();
+
 signals:
     void augmentationsChanged();
     void augmentations2Changed();
